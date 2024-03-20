@@ -68,7 +68,7 @@ const UserController = {
     const { username, introduction, gender, role, password } = req.body
     console.log(username)
     //更新数据库
-    await UserService.add({username: username, gender: Number(gender), introduction: introduction, role:role, password:password })
+    await UserService.add({ username: username, gender: Number(gender), introduction: introduction, role: role, password: password, avatar: avatar })
     if (!avatar) {
       res.send({
         ActionType: 'ok',
@@ -88,6 +88,26 @@ const UserController = {
       })
     }
   },
+  getList: async (req, res) => {
+    const result = await UserService.getList(req.params)
+    res.send({
+      ActionType: 'OK',
+      data: result
+    })
+  },
+  putList: async (req, res) => {
+    const result = await UserService.putList(req.body)
+    res.send({
+      ActionType:"OK"
+    })
+  },
+  delList: async (req, res) => {
+    //console.log(req.params.id)
+    const result = await UserService.delList({_id:req.params.id})
+    res.send({
+      ActionType:"OK"
+    })
+  }
 }
 
 module.exports = UserController

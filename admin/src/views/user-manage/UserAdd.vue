@@ -87,7 +87,7 @@ const submitForm = () => {
         if (valid) {
             //console.log(userForm)
             let res = await upload("/adminapi/user/add", userForm)
-            console.log(res)
+            //console.log(res)
             router.push("/user-manage/userlist")
         } else {
             console.log(userForm)

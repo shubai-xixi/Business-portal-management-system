@@ -21,8 +21,8 @@ const UserService = {
     }
   },
   //传值问题未解决，file要回前面按视频方法处理会更好，不然顺序会产生bug
-  add: async ({ _id, username, introduction, gender, avatar, password, role }) => {
-    return UserModel.create({ _id },
+  add: async ({username, introduction, gender, avatar, password, role }) => {
+    return await UserModel.create(
         {
           username, introduction, gender, avatar, password, role
         })
@@ -37,6 +37,16 @@ const UserService = {
     //       username, introduction, gender
     //     })
     // }
+  },
+  getList: async({ id })=>{
+    return id ? UserModel.find({_id:id},["username","role","password","introduction",]):UserModel.find({},["username","role","avatar","introduction","gender"])
+    
+  },
+  putList: async ( body ) => {
+    return UserModel.updateOne({_id:body._id},body)
+  },
+  delList: async ({ _id }) => {
+    return UserModel.deleteOne({_id})
   }
 }
 
