@@ -21,7 +21,6 @@
             </el-form-item>
             <el-form-item label="头像" prop="avatar">
                 <Upload :avatar="userForm.avatar" @avatarChange="handleChange"></Upload>
-
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm()">添加用户</el-button>
@@ -87,9 +86,9 @@ const submitForm = () => {
     userFormRef.value.validate( async (valid) => {
         if (valid) {
             //console.log(userForm)
-            await upload("/adminapi/user/add", userForm)
-
-            router.push("user-manager/userlist")
+            let res = await upload("/adminapi/user/add", userForm)
+            console.log(res)
+            router.push("/user-manage/userlist")
         } else {
             console.log(userForm)
         }
