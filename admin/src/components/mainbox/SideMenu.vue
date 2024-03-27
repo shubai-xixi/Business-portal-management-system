@@ -14,7 +14,7 @@
           <span>个人中心</span>
         </el-menu-item>
 
-        <el-sub-menu index="/user-manage">
+        <el-sub-menu index="/user-manage" v-admin>
           <template #title>
             <el-icon>
               <UserFilled />
@@ -70,5 +70,14 @@ import { useRoute } from 'vue-router';
 const store = useStore()
 
 const route = useRoute()
+
+const vAdmin = {
+  mounted(el) {
+    //console.log(el)
+    if (store.userInfo.role !== 1) {
+      el.parentNode.removeChild(el)
+    }
+  }
+}
 
 </script>

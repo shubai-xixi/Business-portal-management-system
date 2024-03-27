@@ -1,11 +1,11 @@
 <template>
-    <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-      :show-file-list="false" :on-change="handleChange" :auto-upload="false">
-      <img v-if="props.avatar" :src="uploadAvatar" class="avatar" />
-      <el-icon v-else class="avatar-uploader-icon">
-        <Plus />
-      </el-icon>
-    </el-upload>
+  <el-upload class="avatar-uploader" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+    :show-file-list="false" :on-change="handleChange" :auto-upload="false">
+    <img v-if="props.avatar" :src="uploadAvatar" class="avatar" />
+    <el-icon v-else class="avatar-uploader-icon">
+      <Plus />
+    </el-icon>
+  </el-upload>
 </template>
 
 <script setup>
@@ -13,14 +13,14 @@
 import { Plus } from '@element-plus/icons-vue'
 import { computed } from 'vue';
 const props = defineProps({
-  avatar:String
+  avatar: String
 })
 
 const emit = defineEmits()
 //选择完图片的回调
 const handleChange = (file) => {
   //父子通信
-  emit("avatarChange",file.raw)
+  emit("avatarChange", file.raw)
 }
 
 // const avatarUrl = computed(() => {

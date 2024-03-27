@@ -18,11 +18,13 @@ const routes = [
       },
       {
         path:"/user-manage/useradd",
-        component:UserAdd
+        component: UserAdd,
+        requireAdmin: true
       },
       {
         path:"/user-manage/userlist",
-        component:UserList
+        component: UserList,
+        requireAdmin: true
       },
       {
         path:"/news-manage/newsadd",

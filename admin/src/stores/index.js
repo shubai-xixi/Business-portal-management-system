@@ -18,7 +18,7 @@ export const useStore = defineStore('c', {
         ...this.userInfo,
         ...value
       }
-      console.log(this.userInfo)
+      //console.log(this.userInfo)
     },
     clearUserInfo() {
       this.userInfo = {}
