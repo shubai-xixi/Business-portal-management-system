@@ -4,22 +4,23 @@
             <el-page-header content="用户列表" icon="" title="用户管理">
             </el-page-header>
             <el-table :data="tableData" stripe style="width: 100%">
-                <el-table-column prop="username" label="用户名" width="180" >
+                <el-table-column prop="username" label="用户名" width="180">
                 </el-table-column>
-                <el-table-column label="头像" width="180" >
+                <el-table-column label="头像" width="180">
                     <template #default="scope">
                         <div v-if="scope.row.avatar">
                             <el-avatar :size="50" :src="'http://localhost:3000' + scope.row.avatar"></el-avatar>
                         </div>
                         <div v-else>
-                            <el-avatar :size="50" :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"></el-avatar>
+                            <el-avatar :size="50"
+                                :src="'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"></el-avatar>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="角色" >
+                <el-table-column label="角色">
                     <template #default="scope">
-                       <el-tag v-if="scope.row.role===2" type="success">编辑</el-tag>
-                       <el-tag v-else type="danger">管理员</el-tag> 
+                        <el-tag v-if="scope.row.role===2" type="success">编辑</el-tag>
+                        <el-tag v-else type="danger">管理员</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作">
@@ -27,11 +28,20 @@
                         <el-button size="small" @click="handleEdit(scope.row)">
                             编辑
                         </el-button>
-                        <el-popconfirm title="是否确定删除？" confirmButtonText="确定" cancelButtonText="取消" @confirm="handleDelete(scope.row)">
+                        <el-popconfirm title="是否确定删除？" confirmButtonText="确定" cancelButtonText="取消"
+                            @confirm="handleDelete(scope.row)">
                             <template #reference>
                                 <el-button size="small" type="danger">
-                                删除
-                            </el-button>
+                                    删除
+                                    <!--el-popconfirm title="是否确定删除？" confirmButtonText="确定" cancelButtonText="取消"
+                                        @confirm="handleDelete(scope.row)">
+                                        <template #reference>
+                                            <el-button size="small" type="danger">
+                                                删除
+                                            </el-button>
+                                        </template>
+                                    </el-popconfirm-->
+                                </el-button>
                             </template>
                         </el-popconfirm>
                     </template>
@@ -39,37 +49,33 @@
             </el-table>
         </el-card>
 
-        <el-dialog
-    v-model="dialogVisible"
-    title="编辑用户"
-    width="30%"
-  >
-  <el-form ref="userFormRef" style="max-width: 600px" :model="userForm" :rules="userRules" label-width="80px"
-            class="demo-ruleForm" status-icon>
-            <el-form-item label="用户名" prop="username">
-                <el-input v-model="userForm.username" />
-            </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input v-model="userForm.password" />
-            </el-form-item>
-            <el-form-item label="角色" prop="role">
-                <el-select v-model="userForm.role" placeholder="Select" size="large" style="width: 100%;">
-                    <el-option v-for="item in options" :value="item.value" :label="item.label" />
-                </el-select>
-            </el-form-item>
-            <el-form-item label="个人简介" prop="introduction">
-                <el-input v-model="userForm.introduction" type="textarea" />
-            </el-form-item>
-        </el-form>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="handleEditConfirm()">
-          确认
-        </el-button>
-      </div>
-    </template>
-  </el-dialog>
+        <el-dialog v-model="dialogVisible" title="编辑用户" width="50%">
+            <el-form ref="userFormRef" style="max-width: 600px" :model="userForm" :rules="userRules" label-width="80px"
+                class="demo-ruleForm" status-icon>
+                <el-form-item label="用户名" prop="username">
+                    <el-input v-model="userForm.username" />
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input v-model="userForm.password" />
+                </el-form-item>
+                <el-form-item label="角色" prop="role">
+                    <el-select v-model="userForm.role" placeholder="Select" size="large" style="width: 100%;">
+                        <el-option v-for="item in options" :value="item.value" :label="item.label" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="个人简介" prop="introduction">
+                    <el-input v-model="userForm.introduction" type="textarea" />
+                </el-form-item>
+            </el-form>
+            <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="handleEditConfirm()">
+                        确认
+                    </el-button>
+                </div>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
@@ -132,7 +138,7 @@ const handleEdit = async (data) => {
     const res = await axios.get('/adminapi/user/list/' + data._id)
     //userForm.value = res.data.data[0]
     Object.assign(userForm,res.data.data[0])
-    console.log(res.data)
+    //console.log(res.data)
     //console.log(userForm.value)
     dialogVisible.value = true
 }

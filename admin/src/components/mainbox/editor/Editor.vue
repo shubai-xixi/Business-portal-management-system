@@ -19,9 +19,12 @@
 
 <script setup>
 import '@wangeditor/editor/dist/css/style.css';
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue';
+import { onBeforeUnmount, ref, shallowRef, onMounted, watch } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 
+const props = defineProps({
+  content: String
+})
 const emit = defineEmits(["event"])
 // 编辑器实例，必须用 shallowRef，重要！
 const editorRef = shallowRef();
@@ -35,10 +38,19 @@ onMounted(() => {
   //   valueHtml.value = '';
   // }, 1500);
 
-  // 子传父
-  emit("event", valueHtml.value)
+  // 子传父,换到函数后面啦，这里需要监听的
+  //emit("event", valueHtml.value)
 
+  //父传子,设置初始值,要看编辑器的文档
+  //console.log(props)打印早了，其实在传
+  //props.content && editor.setHtml(props.content)
+  //所以改这么早也是没有用的，写一个专门的监听函数会好一些,还有啊改响应式数据就完了，sethtml那个方法怪傻的
 });
+
+watch(props, () => {
+  //console.log(props)
+  valueHtml.value = props.content
+})
 
 const toolbarConfig = {};
 const editorConfig = { placeholder: '请输入内容...' };
@@ -59,13 +71,14 @@ const handleCreated = (editor) => {
 const handleChange = () => {
   // 子传父
   emit("event", valueHtml.value)
+  //props.content && editor.setHtml(props.html)
   //console.log('change:', editor.getHtml());
 };
 const handleDestroyed = (editor) => {
   //console.log('destroyed', editor);
 };
 const handleFocus = (editor) => {
-  //console.log('focus', editor);
+  // console.log('focus', editor);
 };
 const handleBlur = (editor) => {
   //console.log('blur', editor);
@@ -77,10 +90,10 @@ const customPaste = (editor, event, callback) => {
   //console.log('ClipboardEvent 粘贴事件对象', event);
 
   // 自定义插入内容
-  editor.insertText('xxx');
+  //editor.insertText('xxx');
 
   // 返回值（注意，vue 事件的返回值，不能用 return）
-  callback(false); // 返回 false ，阻止默认粘贴行为
+  //callback(false); // 返回 false ，阻止默认粘贴行为
   // callback(true) // 返回 true ，继续默认的粘贴行为
 };
 
@@ -88,7 +101,7 @@ const insertText = () => {
   const editor = editorRef.value;
   if (editor == null) return;
 
-  editor.insertText('hello world');
+  //editor.insertText('hello world');
 };
 
 const printHtml = () => {
