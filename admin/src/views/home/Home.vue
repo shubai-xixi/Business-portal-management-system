@@ -12,9 +12,13 @@
         </el-card>
         <el-card class="box-card">
             <span>公司产品</span>
-            <el-carousel :interval="4000" type="card" height="200px">
-                <el-carousel-item v-for="item in 6" :key="item">
-                    <h3 text="2xl" justify="center">{{ item }}</h3>
+            <el-carousel v-if="loopList.length" :interval="4000" type="card" height="200px">
+                <el-carousel-item v-for="item in loopList" :key="item._id">
+                    <div :style="{
+                    backgroundImage: `url('http://localhost:3000/${item.cover}')`, backgroundSize: 'cover'
+                }">
+                        <h3 text="2xl" justify="center">{{ item._id }}</h3>
+                    </div>
                 </el-carousel-item>
             </el-carousel>
         </el-card>
@@ -24,11 +28,9 @@
 <script setup>
 import axios from 'axios'
 import { useStore } from '../../stores';
-import { computed } from 'vue';
+import { computed, onMounted,ref } from 'vue';
 
 const store = useStore()
-//console.log(store.userInfo)
-
 const avatarUrl = computed(() => {
     return store.userInfo.avatar ? 'http://localhost:3000'+store.userInfo.avatar : 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 })
@@ -36,6 +38,23 @@ const avatarUrl = computed(() => {
 const welcomeText = computed(() => {
    return new Date().getHours<12 ? '要开心每一天' : '喝杯咖啡提提神吧'
 })
+
+const loopList = ref([])
+
+const getData = async () => {
+    const res = await axios.get('/adminapi/product/list')
+    loopList.value = res.data.data;
+    // console.log(loopList.value)
+    // console.log(res.data.data)
+
+}
+
+onMounted(() => {
+    getData()
+})
+
+//let background = { backgroundImg: url(('http://loccalhost:3000' + item.cover)) }
+//console.log(background)
 </script>
 
 <style lang="scss" scope>
@@ -44,7 +63,7 @@ const welcomeText = computed(() => {
 }
 
 .el-carousel__item h3 {
-    color: #475669;
+    color: white;
     opacity: 0.75;
     line-height: 200px;
     margin: 0;

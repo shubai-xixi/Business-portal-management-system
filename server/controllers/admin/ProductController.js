@@ -4,9 +4,9 @@ const ProductController = {
   add: async (req, res) => {
     //console.log(req.body)
     const cover = req.file ? '/product/uploads/'+ req.file.filename : ""
-    const { title,intrduction,detail } = req.body
+    const { title,introduction,detail } = req.body
     await ProductService.add({
-      title,intrduction,detail,
+      title,introduction,detail,
       cover: cover,
       editTime: new Date()
     })
@@ -15,14 +15,14 @@ const ProductController = {
       ActionType: "OK",
     })
   },
-//   getList: async (req, res) => {
-//     //console.log(req.params.id)
-//     const result = await NewsService.getList({_id:req.params.id})
-//      res.send({
-//        ActionType: "OK",
-//        data: result
-//     })
-//   },
+  getList: async (req, res) => {
+    //console.log(req.params.id)
+    const result = await ProductService.getList({_id:req.params.id})
+     res.send({
+       ActionType: "OK",
+       data: result
+    })
+  },
 //   publish: async (req, res) => {
 //     //.log(req.body)
 //     await NewsService.publish({
@@ -33,29 +33,26 @@ const ProductController = {
 //       ActionType: "OK"
 //     })
 //   },
-//   delList: async (req, res) => {
-//     await NewsService.delList({ _id: req.params.id })
-    
-//     res.send({
-//       ActionType: "OK"
-//     })
-//   },
-//   updateList: async (req, res) => {
-//     //console.log(req.body)
-//     const cover = req.file ? '/news/uploads/'+ req.file.filename : ""
-//     const { title,content,category,isPublish,_id } = req.body
-//     await NewsService.updateList({
-//       title,content,_id,
-//       category: Number(category),
-//       isPublish: Number(isPublish),
-//       cover: cover,
-//       editTime: new Date()
-//     })
+  delList: async (req, res) => {
+    await ProductService.delList({ _id: req.params.id })
+    res.send({
+      ActionType: "OK"
+    })
+  },
+  updateList: async (req, res) => {
+    //console.log(req.body)
+    const cover = req.file ? '/product/uploads/'+ req.file.filename : ""
+    const { title,introduction,detail,_id } = req.body
+    await ProductService.updateList({
+      title,introduction,detail,_id,
+      cover: cover,
+      editTime: new Date()
+    })
 
-//     res.send({
-//       ActionType: "OK",
-//     })
-//   },
+    res.send({
+      ActionType: "OK",
+    })
+  },
 }
 
 module.exports = ProductController
